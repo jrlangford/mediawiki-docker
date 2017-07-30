@@ -1,8 +1,6 @@
 FROM debian:sid
 MAINTAINER Gabriel Wicke <gwicke@wikimedia.org>
 
-ENV MEDIAWIKI_VERSION wmf/1.30.0-wmf.4
-
 # XXX: Consider switching to nginx.
 RUN set -x; \
     apt-get update \
@@ -28,6 +26,7 @@ RUN set -x; \
     && rm /var/www/html/index.html
 
 
+ENV MEDIAWIKI_VERSION 1.29.0
 # MediaWiki setup
 RUN set -x; \
     mkdir -p /usr/src \
@@ -38,25 +37,29 @@ RUN set -x; \
         /usr/src/mediawiki \
     && cd /usr/src/mediawiki \
     && git submodule update --init skins \
-    && git submodule update --init vendor \
-    && cd extensions \
+    && git submodule update --init vendor
+
+RUN set -x; \
+    cd /usr/src/mediawiki/extensions \
     # Extensions
     # TODO: make submodules shallow clones?
-    && git submodule update --init --recursive VisualEditor \
-    && git submodule update --init --recursive Math \
-    && git submodule update --init --recursive EventBus \
-    && git submodule update --init --recursive Scribunto \
-    && git submodule update --init --recursive ParserFunctions \
-    && git submodule update --init --recursive SyntaxHighlight_GeSHi \
     && git submodule update --init --recursive Cite \
-    && git submodule update --init --recursive Echo \
-    && git submodule update --init --recursive Flow \
-    && git submodule update --init --recursive PageImages \
-    && git submodule update --init --recursive TextExtracts \
-    && git submodule update --init --recursive MobileFrontend \
-    && git submodule update --init --recursive TemplateData \
+    && git submodule update --init --recursive CiteThisPage \
+    && git submodule update --init --recursive ConfirmEdit \
+    && git submodule update --init --recursive Gadgets \
+    && git submodule update --init --recursive ImageMap \
+    && git submodule update --init --recursive InputBox \
+    && git submodule update --init --recursive Interwiki \
+    && git submodule update --init --recursive LocalisationUpdate \
+    && git submodule update --init --recursive Nuke \
     && git submodule update --init --recursive ParserFunctions \
-    && git submodule update --init --recursive Citoid
+    && git submodule update --init --recursive Poem \
+    && git submodule update --init --recursive Renameuser \
+    && git submodule update --init --recursive SimpleAntiSpam \
+    && git submodule update --init --recursive SyntaxHighlight_GeSHi \
+    && git submodule update --init --recursive TitleBlacklist \
+    && git submodule update --init --recursive Vector \
+    && git submodule update --init --recursive WikiEditor
 
 
 COPY php.ini /usr/local/etc/php/conf.d/mediawiki.ini

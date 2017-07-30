@@ -17,7 +17,7 @@ web:
   # volumes:
   #   - /local/data/dir:/data:rw
   environment:
-    - MEDIAWIKI_SITE_SERVER=//my-wiki
+    - MEDIAWIKI_SITE_SERVER=//localhost
     - MEDIAWIKI_SITE_NAME=My Awesome Wiki
     - MEDIAWIKI_DB_PASSWORD=password
 
