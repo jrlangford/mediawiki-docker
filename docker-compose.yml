@@ -13,6 +13,7 @@ web:
   # see README.md for more details.
   links:
     - db
+    - parsoid
   # uncomment the 'volumes' section to enable a shared volume with docker-compose
   # volumes:
   #   - /local/data/dir:/data:rw
@@ -20,6 +21,8 @@ web:
     - MEDIAWIKI_SITE_SERVER=//localhost
     - MEDIAWIKI_SITE_NAME=My Awesome Wiki
     - MEDIAWIKI_DB_PASSWORD=password
-
     # uncomment 'MEDIAWIKI_ENABLE_SSL' to enable SSL support
     # - MEDIAWIKI_ENABLE_SSL=true
+
+parsoid:
+  image: jrlangford/parsoid

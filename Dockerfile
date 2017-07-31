@@ -61,11 +61,22 @@ RUN set -x; \
     && git submodule update --init --recursive Vector \
     && git submodule update --init --recursive WikiEditor
 
+ RUN set -x; \
+    cd /usr/src/mediawiki/extensions \
+    && git clone \
+	--depth 1 \
+	-b REL1_29 \
+	https://gerrit.wikimedia.org/r/p/mediawiki/extensions/VisualEditor.git \
+    && cd VisualEditor \
+    && git submodule update --init --recursive
+
 
 COPY php.ini /usr/local/etc/php/conf.d/mediawiki.ini
 
 COPY apache/mediawiki.conf /etc/apache2/
 RUN echo "Include /etc/apache2/mediawiki.conf" >> /etc/apache2/apache2.conf
+
+COPY CustomSettings.php conf/CustomSettings.php
 
 COPY docker-entrypoint.sh /entrypoint.sh
 
