@@ -25,4 +25,4 @@ web:
     # - MEDIAWIKI_ENABLE_SSL=true
 
 parsoid:
-  image: jrlangford/parsoid
+  image: parsoid

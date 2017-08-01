@@ -1,29 +1,39 @@
-FROM debian:sid
-MAINTAINER Gabriel Wicke <gwicke@wikimedia.org>
+FROM ubuntu:16.04
+MAINTAINER Jonathan Langford <jrobinlangford@gmail.com>
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        wget \
+        ca-certificates \
+	apache2 \
+        imagemagick \
+        netcat \
+        git
+
+RUN apt-get update && \
+    apt-get install -y \
+        python-software-properties \
+	software-properties-common
 
 # XXX: Consider switching to nginx.
 RUN set -x; \
-    apt-get update \
-    && apt-get install -y --no-install-recommends \
-        ca-certificates \
-        apache2 \
+    LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
         libapache2-mod-php7.1 \
         php7.1-mysql \
         php7.1-cli \
         php7.1-gd \
         php7.1-curl \
         php7.1-mbstring \
-        php7.1-xml \
-        imagemagick \
-        netcat \
-        git \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /var/cache/apt/archives/* \
-    && a2enmod rewrite \
-    && a2enmod proxy \
-    && a2enmod proxy_http \
+        php7.1-xml  && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /var/cache/apt/archives/* && \
+    a2enmod rewrite && \
+    a2enmod proxy && \
+    a2enmod proxy_http && \
     # Remove the default Debian index page.
-    && rm /var/www/html/index.html
+    rm /var/www/html/index.html
 
 
 ENV MEDIAWIKI_VERSION 1.29.0
